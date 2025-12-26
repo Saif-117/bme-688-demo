@@ -1,0 +1,1 @@
+#define M5_BME688_ADDR   0x77
