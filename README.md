@@ -59,3 +59,23 @@ Where to start
 - Project setup: https://youtu.be/NMeq722qaVA?si=CnptIfdL70_tgy3a
 - Import data: https://youtu.be/JS46gXtL3e0?si=R4XQFrts7fsdm_nz
 - Label specimen: https://youtu.be/_Qi7dAUjmgw?si=8f4RLqyG8JRYAhM_
+
+## Scripts
+
+- **scripts/update_bmeraw_data.py**: Utility to normalize and correct recorded raw data files (`.bmerawdata`). The script updates the `rawDataHeader.dateCreated` and `rawDataHeader.dateCreated_ISO` fields to the current time and recalculates the 4th column (the real-time clock / epoch) in each row of `rawDataBody.dataBlock` using:
+
+  epoch_at_start + (time_since_poweron / 1000)
+
+  where `time_since_poweron` is the 3rd column (milliseconds).
+
+  The script writes the modified JSON to a new file (by default it appends `_updated` to the input filename).
+
+Example usage (POSIX or Windows PowerShell):
+
+```bash
+python scripts/update_bmeraw_data.py ./data/input.bmerawdata ./data/output.bmerawdata
+```
+
+Notes:
+- The script expects a JSON-style `.bmerawdata` file with a `rawDataBody.dataBlock` array of rows.
+- If a row's time fields are unparsable, that row's epoch value is left unchanged.

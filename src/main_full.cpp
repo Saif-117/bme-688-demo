@@ -326,7 +326,7 @@ void loop()
 
 	/*checks the ble connection status, restarts advertising if disconnected */
 	bleCtlr.check_ble_connection_sts();
-
+	static uint32_t last_record_msg_ts = 0;
 	if (ret_code >= EDK_OK)
 	{
 		/* Retrieves the current label */
@@ -337,7 +337,13 @@ void loop()
 			/*  Gets the bme688 sensors raw data in app and logs the same based on the selected sensors */
 			case DEMO_RECORDING_MODE:
 			{
-				Serial.println("Recording Mode - Sensor: ");
+				/* Displays recording message every 10 seconds */
+				
+				if ((uint32_t)(millis() - last_record_msg_ts) >= 10000U) {
+					Serial.println("Recording...");
+					last_record_msg_ts = millis();
+				}
+
 				uint8_t i;
                 
 				/* Flushes the buffered sensor data to the current log file */
@@ -1027,11 +1033,9 @@ void ble_notify_get_fw_version(const bleController::ble_msg &msg, JsonDocument& 
 demo_ret_code configure_sensor_logging(const String& bme_config_file)
 {
 	demo_ret_code ret = sensorMgr.begin(bme_config_file);
-	Serial.printf("Here 1, ret=%d\n", ret);
 	if (ret >= EDK_OK)
 	{
 		ret = bme68xDlog.begin(bme_config_file);
-		Serial.printf("Here 2, ret=%d\n", ret);
 	}
 	return ret;
 }
