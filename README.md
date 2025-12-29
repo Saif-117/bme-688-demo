@@ -7,24 +7,24 @@ Simple demo for Bosch BME68x / BSEC2 datalogging, BLE and inference
 
 ## Quick Start / Prerequisites
 - Platform: PlatformIO (VS Code PlatformIO extension) on ESP32/ESP8266 toolchain.
-- Required libraries: BSEC2 library (from Bosch — proprietary), SdFat, RTClib, ArduinoJson, BLE libs (ESP32 BLEDevice / BLEServer), base64, and Arduino core libraries referenced in `platformio.ini`.
+- Required libraries: BSEC2 library (from Bosch - proprietary), SdFat, RTClib, ArduinoJson, BLE libs (ESP32 BLEDevice / BLEServer), base64, and Arduino core libraries referenced in `platformio.ini`.
 - Hardware: BME680 / BME688 sensor(s), SD card (SPI), and a BLE-capable board (e.g., ESP32). Sensors should be conditioned (hours) for stable BSEC outputs.
 
 ## Repository layout
 - [platformio.ini](platformio.ini): Build environments and targets.
 - [src](src/):
-  - [src/main_basic.cpp](src/main_basic.cpp) — Minimal BSEC integration and serial output.
-  - [src/main_full.cpp](src/main_full.cpp) — Full demo: SD logging, BLE control, multi-sensor support, BSEC integration.
-  - [src/main_inference.cpp](src/main_inference.cpp) — Inference-focused example using BSEC config strings.
+  - [src/main_basic.cpp](src/main_basic.cpp) - Minimal BSEC integration and serial output.
+  - [src/main_full.cpp](src/main_full.cpp) - Full demo: SD logging, BLE control, multi-sensor support, BSEC integration.
+  - [src/main_inference.cpp](src/main_inference.cpp) - Inference-focused example using BSEC config strings.
 - [lib/project_lib/src](lib/project_lib/src): Core modules
-  - [lib/project_lib/src/ble_controller.h](lib/project_lib/src/ble_controller.h) — BLE command parsing, queueing, notifications.
-  - [lib/project_lib/src/bme68x_datalogger.h](lib/project_lib/src/bme68x_datalogger.h) — Raw sensor datalogging to SD.
-  - [lib/project_lib/src/bsec_datalogger.h](lib/project_lib/src/bsec_datalogger.h) — BSEC outputs datalogging and AI config handling.
-  - [lib/project_lib/src/label_provider.h](lib/project_lib/src/label_provider.h) — Label storage/lookup.
-  - [lib/project_lib/src/led_controller.h](lib/project_lib/src/led_controller.h) — Status LEDs.
-  - [lib/project_lib/src/sensor_manager_custom.h](lib/project_lib/src/sensor_manager_custom.h) — Sensor scheduling.
-  - [lib/project_lib/src/utils.h](lib/project_lib/src/utils.h) — SD/RTC/file helpers.
-  - [lib/project_lib/src/demo_app.h](lib/project_lib/src/demo_app.h) — App modes, return codes, shared types.
+  - [lib/project_lib/src/ble_controller.h](lib/project_lib/src/ble_controller.h) - BLE command parsing, queueing, notifications.
+  - [lib/project_lib/src/bme68x_datalogger.h](lib/project_lib/src/bme68x_datalogger.h) - Raw sensor datalogging to SD.
+  - [lib/project_lib/src/bsec_datalogger.h](lib/project_lib/src/bsec_datalogger.h) - BSEC outputs datalogging and AI config handling.
+  - [lib/project_lib/src/label_provider.h](lib/project_lib/src/label_provider.h) - Label storage/lookup.
+  - [lib/project_lib/src/led_controller.h](lib/project_lib/src/led_controller.h) - Status LEDs.
+  - [lib/project_lib/src/sensor_manager_custom.h](lib/project_lib/src/sensor_manager_custom.h) - Sensor scheduling.
+  - [lib/project_lib/src/utils.h](lib/project_lib/src/utils.h) - SD/RTC/file helpers.
+  - [lib/project_lib/src/demo_app.h](lib/project_lib/src/demo_app.h) - App modes, return codes, shared types.
 - [config](config/): BSEC configuration strings and CSVs for different sensors and AI models (e.g., FieldAir_HandSanitizer).
 - [include](include/): Board/specific pin definitions.
 
@@ -34,9 +34,9 @@ How it works (high level)
 - Dataloggers write JSON-like records to SD, manage label files and AI config headers.
 
 Notes & gotchas
-- The BSEC2 library and some config blobs are proprietary — obtain and place the correct BSEC2 package and config strings (see `config/`) before building.
+- The BSEC2 library and some config blobs are proprietary - obtain and place the correct BSEC2 package and config strings (see `config/`) before building.
 - Sensor conditioning: run sensors for long periods (hours) to stabilize BSEC outputs.
-- SD card CS pin and board-specific wiring may need adapting — check `include/custom_pins.h` and [lib/project_lib/src/utils.h](lib/project_lib/src/utils.h) (`PIN_SD_CS`).
+- SD card CS pin and board-specific wiring may need adapting - check `include/custom_pins.h` and [lib/project_lib/src/utils.h](lib/project_lib/src/utils.h) (`PIN_SD_CS`).
 
 Where to start
 - Quick test: build and upload [src/main_basic.cpp](src/main_basic.cpp) and monitor serial.
